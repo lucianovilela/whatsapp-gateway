@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WhatsApp Gateway
 
-## Getting Started
+Gateway HTTP para persistir solicitações do WhatsApp em PostgreSQL.
 
-First, run the development server:
+## Configuração local
+
+Instale as dependências e copie `.env.example` para `.env`. Configure as variáveis abaixo com valores próprios:
+
+- `DATABASE_URL`: string de conexão PostgreSQL.
+- `JWS_SECRET`: segredo aleatório usado para assinar e validar o token do gateway.
+- `ADMIN_SECRET`: segredo administrativo usado exclusivamente para emitir tokens.
+
+Inicie o servidor com:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Autenticação do gateway
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Somente `POST /api/gateway` exige `Authorization: Bearer <token>`. Os tokens usam HS256, são emitidos para o subject `gateway` e expiram em 90 dias. `GET /api/gateway` e `PATCH /api/gateway/:id/read` permanecem públicos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Emita um token usando o segredo administrativo:
 
-## Learn More
+```bash
+curl -X POST http://localhost:3000/api/auth/token \
+  -H "X-Admin-Secret: $ADMIN_SECRET"
+```
 
-To learn more about Next.js, take a look at the following resources:
+Use o token retornado no POST protegido:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+curl -X POST http://localhost:3000/api/gateway \
+  -H "Authorization: Bearer $GATEWAY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"exemplo"}'
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy na Vercel
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Importe o repositório na Vercel e configure a integração com o banco PostgreSQL.
+2. Em **Settings > Environment Variables**, defina `DATABASE_URL`, `JWS_SECRET` e `ADMIN_SECRET` nos ambientes necessários.
+3. Use segredos longos e aleatórios para `JWS_SECRET` e `ADMIN_SECRET`; não os inclua no repositório nem em logs.
+4. Faça o deploy. A Vercel executará o build e disponibilizará as rotas da aplicação.
