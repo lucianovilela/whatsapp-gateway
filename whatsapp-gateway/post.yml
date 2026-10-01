@@ -13,7 +13,9 @@ http:
         id:'0001',
         value:'isso é um teste'
       }
-  auth: inherit
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3aGF0c2FwcC1nYXRld2F5IiwiYXVkIjoiZ2F0ZXdheTp3cml0ZSIsInN1YiI6ImdhdGV3YXkiLCJpYXQiOjE3OTA4ODAxNDgsImV4cCI6MTc5ODY1NjE0OH0.YtrNePDrz5KAajyJv2gDExFbrv0eX5cD1g_ldTFENmY
 
 settings:
   encodeUrl: true

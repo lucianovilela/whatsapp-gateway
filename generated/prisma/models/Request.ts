@@ -214,12 +214,12 @@ export type RequestOrderByWithRelationInput = {
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  texto?: string
   AND?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   OR?: Prisma.RequestWhereInput[]
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
+  texto?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.IntFilter<"Request"> | number
-}, "id" | "texto">
+}, "id">
 
 export type RequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
