@@ -46,3 +46,8 @@ export { Prisma }
  * 
  */
 export type Request = Prisma.RequestModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

@@ -1,36 +1,41 @@
-﻿import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/app/lib/prisma";
+import { isRequestAuthorized } from "@/app/lib/session";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
-export async function GET(_request: Request, { params }: RouteContext) {
+export async function GET(request: Request, { params }: RouteContext) {
+  if (!(await isRequestAuthorized(request, { allowSession: true })))
+    return Response.json({ error: "Não autorizado." }, { status: 401 });
   const { id } = await params;
   if (!/^[1-9]\d*$/.test(id))
     return Response.json({ error: "ID inválido." }, { status: 400 });
   const requestId = Number(id);
   if (!Number.isSafeInteger(requestId))
     return Response.json({ error: "ID inválido." }, { status: 400 });
-  const request = await prisma.request.findUnique({
+  const gatewayRequest = await prisma.request.findUnique({
     where: { id: requestId },
     select: { texto: true },
   });
-  if (!request)
+  if (!gatewayRequest)
     return Response.json(
       { error: "Requisição não encontrada." },
       { status: 404 },
     );
 
-  return Response.json(JSON.parse(request.texto));
+  return Response.json(JSON.parse(gatewayRequest.texto));
 }
 
-export async function PATCH(_request: Request, { params }: RouteContext) {
+export async function PATCH(request: Request, { params }: RouteContext) {
+  if (!(await isRequestAuthorized(request, { allowSession: true })))
+    return Response.json({ error: "Não autorizado." }, { status: 401 });
   const { id } = await params;
   if (!/^[1-9]\d*$/.test(id))
     return Response.json({ error: "ID inválido." }, { status: 400 });
   const requestId = Number(id);
   if (!Number.isSafeInteger(requestId))
     return Response.json({ error: "ID inválido." }, { status: 400 });
-  const request = await prisma.request.findUnique({ where: { id: requestId } });
-  if (!request)
+  const gatewayRequest = await prisma.request.findUnique({ where: { id: requestId } });
+  if (!gatewayRequest)
     return Response.json(
       { error: "Requisição não encontrada." },
       { status: 404 },

@@ -1,28 +1,13 @@
-
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import { PrismaClient } from '@/generated/prisma/client';
 
-const connectionString = process.env.DATABASE_URL  || process.env.POSTGRES_PRISMA_URL;
+const databasePath = process.env.DATABASE_PATH;
 
-if (!connectionString) {
-  throw new Error("A variável DATABASE_URL não foi encontrada pelo Next.js");
+if (!databasePath) {
+  throw new Error('A variável DATABASE_PATH não foi encontrada pelo Next.js');
 }
 
-// 1. Lemos a URL e removemos forçadamente qualquer parâmetro de query
-// Isso impede que comandos como "?sslmode=require" anulem nosso SSL
-const url = new URL(connectionString);
-url.search = ""; 
-
-const pool = new Pool({
-  connectionString: url.toString(), // Passamos a URL limpa
-  ssl: {
-    rejectUnauthorized: false,      // 2. Agora o SSL flexível será respeitado
-  },
-  max: 10,
-});
-
-const adapter = new PrismaPg(pool);
+const adapter = new PrismaBetterSqlite3({ url: `file:${databasePath}` });
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 

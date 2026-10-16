@@ -40,18 +40,21 @@ export type RequestMinAggregateOutputType = {
   id: number | null
   texto: string | null
   status: number | null
+  dataInclusao: Date | null
 }
 
 export type RequestMaxAggregateOutputType = {
   id: number | null
   texto: string | null
   status: number | null
+  dataInclusao: Date | null
 }
 
 export type RequestCountAggregateOutputType = {
   id: number
   texto: number
   status: number
+  dataInclusao: number
   _all: number
 }
 
@@ -70,18 +73,21 @@ export type RequestMinAggregateInputType = {
   id?: true
   texto?: true
   status?: true
+  dataInclusao?: true
 }
 
 export type RequestMaxAggregateInputType = {
   id?: true
   texto?: true
   status?: true
+  dataInclusao?: true
 }
 
 export type RequestCountAggregateInputType = {
   id?: true
   texto?: true
   status?: true
+  dataInclusao?: true
   _all?: true
 }
 
@@ -175,6 +181,7 @@ export type RequestGroupByOutputType = {
   id: number
   texto: string
   status: number
+  dataInclusao: Date
   _count: RequestCountAggregateOutputType | null
   _avg: RequestAvgAggregateOutputType | null
   _sum: RequestSumAggregateOutputType | null
@@ -204,12 +211,14 @@ export type RequestWhereInput = {
   id?: Prisma.IntFilter<"Request"> | number
   texto?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.IntFilter<"Request"> | number
+  dataInclusao?: Prisma.DateTimeFilter<"Request"> | Date | string
 }
 
 export type RequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   texto?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  dataInclusao?: Prisma.SortOrder
 }
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<{
@@ -219,12 +228,14 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   texto?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.IntFilter<"Request"> | number
+  dataInclusao?: Prisma.DateTimeFilter<"Request"> | Date | string
 }, "id">
 
 export type RequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   texto?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  dataInclusao?: Prisma.SortOrder
   _count?: Prisma.RequestCountOrderByAggregateInput
   _avg?: Prisma.RequestAvgOrderByAggregateInput
   _max?: Prisma.RequestMaxOrderByAggregateInput
@@ -239,51 +250,60 @@ export type RequestScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Request"> | number
   texto?: Prisma.StringWithAggregatesFilter<"Request"> | string
   status?: Prisma.IntWithAggregatesFilter<"Request"> | number
+  dataInclusao?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
 }
 
 export type RequestCreateInput = {
   texto: string
   status?: number
+  dataInclusao?: Date | string
 }
 
 export type RequestUncheckedCreateInput = {
   id?: number
   texto: string
   status?: number
+  dataInclusao?: Date | string
 }
 
 export type RequestUpdateInput = {
   texto?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.IntFieldUpdateOperationsInput | number
+  dataInclusao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   texto?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.IntFieldUpdateOperationsInput | number
+  dataInclusao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestCreateManyInput = {
   id?: number
   texto: string
   status?: number
+  dataInclusao?: Date | string
 }
 
 export type RequestUpdateManyMutationInput = {
   texto?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.IntFieldUpdateOperationsInput | number
+  dataInclusao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   texto?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.IntFieldUpdateOperationsInput | number
+  dataInclusao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   texto?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  dataInclusao?: Prisma.SortOrder
 }
 
 export type RequestAvgOrderByAggregateInput = {
@@ -295,12 +315,14 @@ export type RequestMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   texto?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  dataInclusao?: Prisma.SortOrder
 }
 
 export type RequestMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   texto?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  dataInclusao?: Prisma.SortOrder
 }
 
 export type RequestSumOrderByAggregateInput = {
@@ -320,33 +342,41 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
 
 
 export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   texto?: boolean
   status?: boolean
+  dataInclusao?: boolean
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   texto?: boolean
   status?: boolean
+  dataInclusao?: boolean
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   texto?: boolean
   status?: boolean
+  dataInclusao?: boolean
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectScalar = {
   id?: boolean
   texto?: boolean
   status?: boolean
+  dataInclusao?: boolean
 }
 
-export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "texto" | "status", ExtArgs["result"]["request"]>
+export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "texto" | "status" | "dataInclusao", ExtArgs["result"]["request"]>
 
 export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Request"
@@ -355,6 +385,7 @@ export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     texto: string
     status: number
+    dataInclusao: Date
   }, ExtArgs["result"]["request"]>
   composites: {}
 }
@@ -781,6 +812,7 @@ export interface RequestFieldRefs {
   readonly id: Prisma.FieldRef<"Request", 'Int'>
   readonly texto: Prisma.FieldRef<"Request", 'String'>
   readonly status: Prisma.FieldRef<"Request", 'Int'>
+  readonly dataInclusao: Prisma.FieldRef<"Request", 'DateTime'>
 }
     
 
@@ -991,7 +1023,6 @@ export type RequestCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data used to create many Requests.
    */
   data: Prisma.RequestCreateManyInput | Prisma.RequestCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -1010,7 +1041,6 @@ export type RequestCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * The data used to create many Requests.
    */
   data: Prisma.RequestCreateManyInput | Prisma.RequestCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**

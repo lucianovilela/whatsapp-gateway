@@ -1,0 +1,13 @@
+.git
+.next
+node_modules
+generated
+data
+*.db
+*.db-journal
+.env*
+!.env.example
+npm-debug.log*
+yarn.lock
+tsconfig.tsbuildinfo
+whatsapp-gateway

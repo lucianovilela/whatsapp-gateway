@@ -3,9 +3,17 @@ import { jwtVerify, SignJWT } from "jose";
 const algorithm = "HS256";
 const issuer = "whatsapp-gateway";
 const audience = "gateway:write";
-const subject = "gateway";
+const gatewaySubject = "gateway";
+const userSubjectPattern = /^user:([1-9]\d*)$/;
 const tokenLifetimeSeconds = 90 * 24 * 60 * 60;
+const userTokenLifetimeSeconds = 24 * 60 * 60;
 const encoder = new TextEncoder();
+
+export const sessionCookieName = "session";
+
+export type TokenClaims =
+  | { kind: "gateway" }
+  | { kind: "user"; userId: number; version: number };
 
 export class GatewayAuthError extends Error {
   constructor() {
@@ -24,9 +32,13 @@ function getSigningKey() {
   return encoder.encode(secret);
 }
 
-export async function issueGatewayToken() {
-  const expiresAt = new Date(Date.now() + tokenLifetimeSeconds * 1000);
-  const token = await new SignJWT()
+async function signToken(
+  subject: string,
+  lifetimeSeconds: number,
+  claims: Record<string, number> = {},
+) {
+  const expiresAt = new Date(Date.now() + lifetimeSeconds * 1000);
+  const token = await new SignJWT(claims)
     .setProtectedHeader({ alg: algorithm, typ: "JWT" })
     .setIssuer(issuer)
     .setAudience(audience)
@@ -38,21 +50,43 @@ export async function issueGatewayToken() {
   return { token, expiresAt };
 }
 
-export async function verifyGatewayAuthorization(authorization: string | null) {
-  const match = authorization?.match(/^Bearer (\S+)$/i);
+export async function issueGatewayToken() {
+  return signToken(gatewaySubject, tokenLifetimeSeconds);
+}
 
-  if (!match) {
-    throw new GatewayAuthError();
+export async function issueUserToken(userId: number, tokenVersion: number) {
+  return signToken(`user:${userId}`, userTokenLifetimeSeconds, { ver: tokenVersion });
+}
+
+export function getBearerToken(authorization: string | null) {
+  return authorization?.match(/^Bearer (\S+)$/i)?.[1] ?? null;
+}
+
+// Valida apenas assinatura e claims; a versão do usuário é conferida no banco em session.ts.
+export async function readTokenClaims(token: string | undefined | null): Promise<TokenClaims | null> {
+  if (!token) {
+    return null;
   }
 
   try {
-    await jwtVerify(match[1], getSigningKey(), {
+    const { payload } = await jwtVerify(token, getSigningKey(), {
       algorithms: [algorithm],
       issuer,
       audience,
-      subject,
     });
+
+    if (payload.sub === gatewaySubject) {
+      return { kind: "gateway" };
+    }
+
+    const userId = Number(payload.sub?.match(userSubjectPattern)?.[1]);
+
+    if (!Number.isSafeInteger(userId) || typeof payload.ver !== "number") {
+      return null;
+    }
+
+    return { kind: "user", userId, version: payload.ver };
   } catch {
-    throw new GatewayAuthError();
+    return null;
   }
 }

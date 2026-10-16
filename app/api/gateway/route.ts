@@ -1,9 +1,13 @@
-﻿import type { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
-import { verifyGatewayAuthorization } from "@/app/lib/gateway-auth";
 import { prisma } from "@/app/lib/prisma";
+import { isRequestAuthorized } from "@/app/lib/session";
 
 export async function GET(request: NextRequest) {
+  if (!(await isRequestAuthorized(request, { allowSession: true }))) {
+    return Response.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
   const q = await prisma.request.findMany({
     where: {
       status: {
@@ -15,9 +19,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    await verifyGatewayAuthorization(request.headers.get("authorization"));
-  } catch {
+  if (!(await isRequestAuthorized(request))) {
     return Response.json({ error: "Não autorizado." }, { status: 401 });
   }
 

@@ -1,1 +1,4 @@
 name: WHATSAPP
+variables:
+  - name: adminSecret
+    value: fbQXYzQKCVpJEcNrUt72YKmxiDOGjKOCxsHAPltxsUslTXe29NZdW-8LydB3iTab

@@ -10,8 +10,42 @@ http:
     type: json
     data: |-
       {
-        id:'0001',
-        value:'isso é um teste'
+      "messaging_product": "whatsapp",
+      "metadata": {
+      "display_phone_number": "556133148500",
+      "phone_number_id": "1028727153663276",
+      "webhook_object_id": "6ac00be790cfec33789b107d"
+      },
+      "contacts": [
+      {
+      "profile": {
+      "name": "😌"
+      },
+      "wa_id": "553898155752",
+      "user_id": "BR.3861578634138854"
+      }
+      ],
+      "messages": [
+      {
+      "from": "553898155752",
+      "from_user_id": "BR.3861578634138854",
+      "id": "wamid.HBgMNTUzODk4MTU1NzUyFQIAEhggQUM1RUVEOEE4NDZGOEU5MzVERjZDMDU2MDZCN0RDMjkA",
+      "timestamp": "1791471869",
+      "type": "video",
+      "video": {
+      "mime_type": "video/mp4",
+      "sha256": "sGHnvaWXQzuZveeSGVg/eM4SYtCp/84v0jlk9MEei0w=",
+      "id": "2042276556782459",
+      "url": "https://lookaside.fbsbx.com/whatsapp_business/attachments/?mid=2042276556782459&source=webhook&ext=1791472172&hash=ATxgloGuHvmx6mOFHE74Dt9iFAZWhVga8_GLb9j1d8xUjg"
+      }
+      }
+      ],
+      "errors": [],
+      "statuses": [],
+      "calls": [],
+      "user_id_update": [],
+      "delay": 0,
+      "traceId": "de2a4d81-2fb5-4122-979e-ce17d31a3251"
       }
   auth:
     type: bearer
@@ -22,4 +56,3 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
-​

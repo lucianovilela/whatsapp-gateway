@@ -1,0 +1,17 @@
+info:
+  name: get list
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:3000/api/gateway
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3aGF0c2FwcC1nYXRld2F5IiwiYXVkIjoiZ2F0ZXdheTp3cml0ZSIsInN1YiI6ImdhdGV3YXkiLCJpYXQiOjE3OTIxOTA2NTAsImV4cCI6MTc5OTk2NjY1MH0.1HbgAKZlBVehvaTcXSGv69tZ_xNcqr82e1SzBRqoYUY
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

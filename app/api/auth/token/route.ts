@@ -1,21 +1,5 @@
-﻿import { timingSafeEqual } from "node:crypto";
-
+import { isValidAdminSecret } from "@/app/lib/admin-auth";
 import { issueGatewayToken } from "@/app/lib/gateway-auth";
-
-function isValidAdminSecret(providedSecret: string | null) {
-  const configuredSecret = process.env.ADMIN_SECRET;
-
-  if (!providedSecret || !configuredSecret) {
-    return false;
-  }
-
-  const provided = Buffer.from(providedSecret);
-  const configured = Buffer.from(configuredSecret);
-
-  return (
-    provided.length === configured.length && timingSafeEqual(provided, configured)
-  );
-}
 
 export async function POST(request: Request) {
   if (!isValidAdminSecret(request.headers.get("x-admin-secret"))) {

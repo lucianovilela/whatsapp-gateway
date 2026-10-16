@@ -1,0 +1,15 @@
+services:
+  whatsapp-gateway:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_PATH: /app/data/gateway.db
+      JWS_SECRET: ${JWS_SECRET:?defina JWS_SECRET}
+      ADMIN_SECRET: ${ADMIN_SECRET:?defina ADMIN_SECRET}
+    volumes:
+      - gateway-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  gateway-data:
