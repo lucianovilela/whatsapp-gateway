@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Request: 'Request'
+  Request: 'Request',
+  Liberado: 'Liberado'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -73,10 +74,19 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const RequestScalarFieldEnum = {
   id: 'id',
   texto: 'texto',
-  status: 'status'
+  status: 'status',
+  dataInclusao: 'dataInclusao'
 } as const
 
 export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
+
+
+export const LiberadoScalarFieldEnum = {
+  waId: 'waId',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type LiberadoScalarFieldEnum = (typeof LiberadoScalarFieldEnum)[keyof typeof LiberadoScalarFieldEnum]
 
 
 export const SortOrder = {

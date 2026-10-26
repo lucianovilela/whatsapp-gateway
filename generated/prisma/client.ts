@@ -46,3 +46,8 @@ export { Prisma }
  * 
  */
 export type Request = Prisma.RequestModel
+/**
+ * Model Liberado
+ * 
+ */
+export type Liberado = Prisma.LiberadoModel

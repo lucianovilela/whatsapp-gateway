@@ -2,8 +2,12 @@
 
 import { verifyGatewayAuthorization } from "@/app/lib/gateway-auth";
 import { prisma } from "@/app/lib/prisma";
+import { extractWaId } from "@/app/lib/whatsapp-payload";
 
-export async function GET(request: NextRequest) {
+const statusPendente = 0;
+const statusLiberado = 5;
+
+export async function GET(_request: NextRequest) {
   const q = await prisma.request.findMany({
     where: {
       status: {
@@ -22,9 +26,15 @@ export async function POST(request: NextRequest) {
   }
 
   const res = await request.json();
+  const waId = extractWaId(res);
+  const liberado = waId
+    ? await prisma.liberado.findUnique({ where: { waId } })
+    : null;
+
   const req = await prisma.request.create({
     data: {
       texto: JSON.stringify(res),
+      status: liberado ? statusLiberado : statusPendente,
     },
   });
 

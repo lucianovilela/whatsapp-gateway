@@ -9,16 +9,15 @@ if (!connectionString) {
   throw new Error("A variável DATABASE_URL não foi encontrada pelo Next.js");
 }
 
-// 1. Lemos a URL e removemos forçadamente qualquer parâmetro de query
-// Isso impede que comandos como "?sslmode=require" anulem nosso SSL
+// pg trata sslmode=require como verify-full; removemos a query e aplicamos SSL sem verificação só quando pedido.
 const url = new URL(connectionString);
-url.search = ""; 
+const sslmode = url.searchParams.get("sslmode");
+const useSsl = !!sslmode && sslmode !== "disable";
+url.search = "";
 
 const pool = new Pool({
-  connectionString: url.toString(), // Passamos a URL limpa
-  ssl: {
-    rejectUnauthorized: false,      // 2. Agora o SSL flexível será respeitado
-  },
+  connectionString: url.toString(),
+  ssl: useSsl ? { rejectUnauthorized: false } : false,
   max: 10,
 });
 

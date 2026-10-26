@@ -16,3 +16,8 @@ model Request{
 
   @@index([status])
 }
+
+model Liberado {
+  waId         String   @id
+  dataInclusao DateTime @default(now())
+}

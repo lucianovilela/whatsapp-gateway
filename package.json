@@ -8,6 +8,7 @@
     "build": "prisma db push && next build",
     "start": "next start",
     "lint": "eslint",
+    "agendador": "node --env-file=.env scripts/agendador-responder.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

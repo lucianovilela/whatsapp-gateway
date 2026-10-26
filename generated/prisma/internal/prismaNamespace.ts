@@ -397,7 +397,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Request: 'Request'
+  Request: 'Request',
+  Liberado: 'Liberado'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "request"
+    modelProps: "request" | "liberado"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -491,6 +492,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Liberado: {
+      payload: Prisma.$LiberadoPayload<ExtArgs>
+      fields: Prisma.LiberadoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LiberadoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LiberadoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        findFirst: {
+          args: Prisma.LiberadoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LiberadoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        findMany: {
+          args: Prisma.LiberadoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>[]
+        }
+        create: {
+          args: Prisma.LiberadoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        createMany: {
+          args: Prisma.LiberadoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LiberadoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>[]
+        }
+        delete: {
+          args: Prisma.LiberadoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        update: {
+          args: Prisma.LiberadoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        deleteMany: {
+          args: Prisma.LiberadoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LiberadoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LiberadoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>[]
+        }
+        upsert: {
+          args: Prisma.LiberadoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LiberadoPayload>
+        }
+        aggregate: {
+          args: Prisma.LiberadoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLiberado>
+        }
+        groupBy: {
+          args: Prisma.LiberadoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LiberadoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LiberadoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LiberadoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -533,10 +608,19 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const RequestScalarFieldEnum = {
   id: 'id',
   texto: 'texto',
-  status: 'status'
+  status: 'status',
+  dataInclusao: 'dataInclusao'
 } as const
 
 export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
+
+
+export const LiberadoScalarFieldEnum = {
+  waId: 'waId',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type LiberadoScalarFieldEnum = (typeof LiberadoScalarFieldEnum)[keyof typeof LiberadoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -586,6 +670,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -754,6 +852,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   request?: Prisma.RequestOmit
+  liberado?: Prisma.LiberadoOmit
 }
 
 /* Types for Logging */
