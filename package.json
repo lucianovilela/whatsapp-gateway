@@ -9,9 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "agendador": "node --env-file=.env scripts/agendador-responder.mjs",
+    "mcp": "node --import=tsx --env-file=.env scripts/mcp-server.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "7",
     "dotenv": "^18.0.3",
@@ -31,6 +33,7 @@
     "eslint-config-next": "16.3.6",
     "prisma": "^7.10.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

@@ -51,3 +51,13 @@ export type Request = Prisma.RequestModel
  * 
  */
 export type Liberado = Prisma.LiberadoModel
+/**
+ * Model Atendimento
+ * 
+ */
+export type Atendimento = Prisma.AtendimentoModel
+/**
+ * Model AtendimentoMensagem
+ * 
+ */
+export type AtendimentoMensagem = Prisma.AtendimentoMensagemModel

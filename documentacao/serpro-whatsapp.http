@@ -1,0 +1,116 @@
+
+# Fluxo completo de autenticação, envio e consulta de status
+# Middleware local: http://localhost:8080
+# APIs Serpro: https://whatsapp.serpro.gov.br/swagger-ui/
+
+@middlewareBaseUrl = http://localhost:8080
+@serproBaseUrl = https://api.whatsapp.serpro.gov.br
+
+@clientId = CLIENT_ID_DO_MPT
+@clientSecret = CLIENT_SECRET_DO_MPT
+@clientPhoneNumberId = 1234567890
+
+@destinatario = 5511999991234
+@mensagem = Mensagem de teste enviada pelo middleware Quarkus
+
+###
+# 1) Autenticar no middleware
+# O middleware consulta o OAuth2 do Serpro e mantém o token em cache.
+# @name authMiddleware
+
+POST {{middlewareBaseUrl}}/api/v1/auth/token
+Accept: application/json
+
+###
+# 2) Enviar mensagem de texto pelo middleware
+# O token do passo anterior não precisa ser enviado pelo cliente; o middleware usa o cache interno.
+# @name enviarTextoMiddleware
+
+POST {{middlewareBaseUrl}}/api/v1/messages/text
+Content-Type: application/json
+Accept: application/json
+
+{
+    "destinatario": "{{destinatario}}",
+    "preview_url": false,
+    "body": "{{mensagem}}"
+}
+
+###
+# 3) Consultar status da requisição pelo middleware
+# Este passo reaproveita o id retornado pelo envio. Se a API da Serpro responder com outro nome,
+# copie o valor manualmente para a URL abaixo.
+# @name consultarStatusMiddleware
+
+GET {{middlewareBaseUrl}}/api/v1/status/requests/{{enviarTextoMiddleware.response.body.upstreamResponse.idRequisicao}}?destinatario={{destinatario}}
+Accept: application/json
+
+###
+# 4) Exemplo de envio de template pelo middleware
+# Use quando quiser testar o fluxo de requisição com retorno de id para consulta posterior.
+# @name enviarTemplateMiddleware
+
+POST {{middlewareBaseUrl}}/api/v1/messages/template
+Content-Type: application/json
+Accept: application/json
+
+{
+    "nomeTemplate": "codigo_autenticacao",
+    "wabaId": "999999999999999",
+    "destinatarios": [
+        "{{destinatario}}"
+    ],
+    "body": {
+        "parametros": [
+            {
+                "tipo": "text",
+                "valor": "102030"
+            }
+        ]
+    }
+}
+
+###
+# 5) Consultar status da requisição de template pelo middleware
+# @name consultarStatusTemplateMiddleware
+
+GET {{middlewareBaseUrl}}/api/v1/status/requests/{{enviarTemplateMiddleware.response.body.upstreamResponse.idRequisicao}}?destinatario={{destinatario}}
+Accept: application/json
+
+###
+# 6) Consultar templates por WABA ID pelo middleware
+# @name consultarTemplatesMiddleware
+
+GET {{middlewareBaseUrl}}/api/v1/waba/{{clientPhoneNumberId}}/v2/templates
+Accept: application/json
+
+###
+# Referência direta: obter Access Token no Serpro
+# @name authSerpro
+
+POST {{serproBaseUrl}}/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{clientId}}&client_secret={{clientSecret}}
+
+###
+# Referência direta: enviar mensagem de texto ao Serpro
+# @name enviarTextoSerpro
+
+POST {{serproBaseUrl}}/client/{{clientPhoneNumberId}}/v2/requisicao/mensagem/texto
+Authorization: Bearer {{authSerpro.response.body.access_token}}
+Content-Type: application/json
+
+{
+    "destinatario": "{{destinatario}}",
+    "preview_url": false,
+    "body": "{{mensagem}}"
+}
+
+###
+# Referência direta: consultar status no Serpro
+# @name consultarStatusSerpro
+
+GET {{serproBaseUrl}}/client/{{clientPhoneNumberId}}/v2/requisicao/{{enviarTextoSerpro.response.body.idRequisicao}}?destinatario={{destinatario}}
+Authorization: Bearer {{authSerpro.response.body.access_token}}
+Accept: application/json

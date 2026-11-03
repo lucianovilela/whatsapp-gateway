@@ -1,0 +1,1 @@
+export declare function extractWaId(payload: unknown): string | null;

@@ -398,7 +398,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Request: 'Request',
-  Liberado: 'Liberado'
+  Liberado: 'Liberado',
+  Atendimento: 'Atendimento',
+  AtendimentoMensagem: 'AtendimentoMensagem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "request" | "liberado"
+    modelProps: "request" | "liberado" | "atendimento" | "atendimentoMensagem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -566,6 +568,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Atendimento: {
+      payload: Prisma.$AtendimentoPayload<ExtArgs>
+      fields: Prisma.AtendimentoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AtendimentoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AtendimentoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        findFirst: {
+          args: Prisma.AtendimentoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AtendimentoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        findMany: {
+          args: Prisma.AtendimentoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>[]
+        }
+        create: {
+          args: Prisma.AtendimentoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        createMany: {
+          args: Prisma.AtendimentoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AtendimentoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>[]
+        }
+        delete: {
+          args: Prisma.AtendimentoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        update: {
+          args: Prisma.AtendimentoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        deleteMany: {
+          args: Prisma.AtendimentoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AtendimentoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AtendimentoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>[]
+        }
+        upsert: {
+          args: Prisma.AtendimentoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoPayload>
+        }
+        aggregate: {
+          args: Prisma.AtendimentoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAtendimento>
+        }
+        groupBy: {
+          args: Prisma.AtendimentoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AtendimentoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AtendimentoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AtendimentoCountAggregateOutputType> | number
+        }
+      }
+    }
+    AtendimentoMensagem: {
+      payload: Prisma.$AtendimentoMensagemPayload<ExtArgs>
+      fields: Prisma.AtendimentoMensagemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AtendimentoMensagemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AtendimentoMensagemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        findFirst: {
+          args: Prisma.AtendimentoMensagemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AtendimentoMensagemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        findMany: {
+          args: Prisma.AtendimentoMensagemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>[]
+        }
+        create: {
+          args: Prisma.AtendimentoMensagemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        createMany: {
+          args: Prisma.AtendimentoMensagemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AtendimentoMensagemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>[]
+        }
+        delete: {
+          args: Prisma.AtendimentoMensagemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        update: {
+          args: Prisma.AtendimentoMensagemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        deleteMany: {
+          args: Prisma.AtendimentoMensagemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AtendimentoMensagemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AtendimentoMensagemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>[]
+        }
+        upsert: {
+          args: Prisma.AtendimentoMensagemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AtendimentoMensagemPayload>
+        }
+        aggregate: {
+          args: Prisma.AtendimentoMensagemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAtendimentoMensagem>
+        }
+        groupBy: {
+          args: Prisma.AtendimentoMensagemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AtendimentoMensagemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AtendimentoMensagemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AtendimentoMensagemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -623,6 +773,31 @@ export const LiberadoScalarFieldEnum = {
 export type LiberadoScalarFieldEnum = (typeof LiberadoScalarFieldEnum)[keyof typeof LiberadoScalarFieldEnum]
 
 
+export const AtendimentoScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  status: 'status',
+  atendente: 'atendente',
+  iniciadoEm: 'iniciadoEm',
+  finalizadoEm: 'finalizadoEm',
+  motivo: 'motivo',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type AtendimentoScalarFieldEnum = (typeof AtendimentoScalarFieldEnum)[keyof typeof AtendimentoScalarFieldEnum]
+
+
+export const AtendimentoMensagemScalarFieldEnum = {
+  id: 'id',
+  atendimentoId: 'atendimentoId',
+  direcao: 'direcao',
+  texto: 'texto',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type AtendimentoMensagemScalarFieldEnum = (typeof AtendimentoMensagemScalarFieldEnum)[keyof typeof AtendimentoMensagemScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -637,6 +812,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -684,6 +867,34 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AtendimentoStatus'
+ */
+export type EnumAtendimentoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AtendimentoStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AtendimentoStatus[]'
+ */
+export type ListEnumAtendimentoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AtendimentoStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AtendimentoDirecao'
+ */
+export type EnumAtendimentoDirecaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AtendimentoDirecao'>
+    
+
+
+/**
+ * Reference to a field of type 'AtendimentoDirecao[]'
+ */
+export type ListEnumAtendimentoDirecaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AtendimentoDirecao[]'>
     
 
 
@@ -853,6 +1064,8 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   request?: Prisma.RequestOmit
   liberado?: Prisma.LiberadoOmit
+  atendimento?: Prisma.AtendimentoOmit
+  atendimentoMensagem?: Prisma.AtendimentoMensagemOmit
 }
 
 /* Types for Logging */

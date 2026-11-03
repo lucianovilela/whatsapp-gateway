@@ -1,0 +1,14 @@
+Loaded Prisma config from prisma7.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (7.10.0) to .\generated\prisma in 81ms
+
+TSC_EXIT=1 
+
+c:\Users\luciano.dourado\Documents\Projetos\whatsapp-gateway\app\api\gateway\route.ts
+  10:27  warning  '_request' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+ESLINT_EXIT=1

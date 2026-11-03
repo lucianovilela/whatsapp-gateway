@@ -13,6 +13,7 @@ model Request{
   texto String 
   status Int @default(0) 
   dataInclusao DateTime @default(now())
+  atendimento Atendimento?
 
   @@index([status])
 }
@@ -20,4 +21,41 @@ model Request{
 model Liberado {
   waId         String   @id
   dataInclusao DateTime @default(now())
+}
+
+enum AtendimentoStatus {
+  ABERTO
+  EM_ATENDIMENTO
+  FINALIZADO
+}
+
+enum AtendimentoDirecao {
+  RECEBIDA
+  ENVIADA
+}
+
+model Atendimento {
+  id            Int                @id @default(autoincrement())
+  requestId     Int                @unique
+  status        AtendimentoStatus  @default(ABERTO)
+  atendente     String?
+  iniciadoEm    DateTime?
+  finalizadoEm  DateTime?
+  motivo        String?
+  dataInclusao  DateTime           @default(now())
+  request       Request            @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  mensagens     AtendimentoMensagem[]
+
+  @@index([status])
+}
+
+model AtendimentoMensagem {
+  id            Int                @id @default(autoincrement())
+  atendimentoId Int
+  direcao       AtendimentoDirecao
+  texto         String
+  dataInclusao  DateTime           @default(now())
+  atendimento   Atendimento        @relation(fields: [atendimentoId], references: [id], onDelete: Cascade)
+
+  @@index([atendimentoId, dataInclusao])
 }

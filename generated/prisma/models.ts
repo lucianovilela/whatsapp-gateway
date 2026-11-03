@@ -10,4 +10,6 @@
  */
 export type * from './models/Request'
 export type * from './models/Liberado'
+export type * from './models/Atendimento'
+export type * from './models/AtendimentoMensagem'
 export type * from './commonInputTypes'

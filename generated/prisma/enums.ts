@@ -9,7 +9,18 @@
 * 🟢 You can import this file directly.
 */
 
+export const AtendimentoStatus = {
+  ABERTO: 'ABERTO',
+  EM_ATENDIMENTO: 'EM_ATENDIMENTO',
+  FINALIZADO: 'FINALIZADO'
+} as const
+
+export type AtendimentoStatus = (typeof AtendimentoStatus)[keyof typeof AtendimentoStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const AtendimentoDirecao = {
+  RECEBIDA: 'RECEBIDA',
+  ENVIADA: 'ENVIADA'
+} as const
+
+export type AtendimentoDirecao = (typeof AtendimentoDirecao)[keyof typeof AtendimentoDirecao]

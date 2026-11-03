@@ -52,7 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Request: 'Request',
-  Liberado: 'Liberado'
+  Liberado: 'Liberado',
+  Atendimento: 'Atendimento',
+  AtendimentoMensagem: 'AtendimentoMensagem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -89,6 +91,31 @@ export const LiberadoScalarFieldEnum = {
 export type LiberadoScalarFieldEnum = (typeof LiberadoScalarFieldEnum)[keyof typeof LiberadoScalarFieldEnum]
 
 
+export const AtendimentoScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  status: 'status',
+  atendente: 'atendente',
+  iniciadoEm: 'iniciadoEm',
+  finalizadoEm: 'finalizadoEm',
+  motivo: 'motivo',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type AtendimentoScalarFieldEnum = (typeof AtendimentoScalarFieldEnum)[keyof typeof AtendimentoScalarFieldEnum]
+
+
+export const AtendimentoMensagemScalarFieldEnum = {
+  id: 'id',
+  atendimentoId: 'atendimentoId',
+  direcao: 'direcao',
+  texto: 'texto',
+  dataInclusao: 'dataInclusao'
+} as const
+
+export type AtendimentoMensagemScalarFieldEnum = (typeof AtendimentoMensagemScalarFieldEnum)[keyof typeof AtendimentoMensagemScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -103,4 +130,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
