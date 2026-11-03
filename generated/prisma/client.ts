@@ -61,3 +61,18 @@ export type Atendimento = Prisma.AtendimentoModel
  * 
  */
 export type AtendimentoMensagem = Prisma.AtendimentoMensagemModel
+/**
+ * Model OAuthClient
+ * 
+ */
+export type OAuthClient = Prisma.OAuthClientModel
+/**
+ * Model OAuthAuthorizationCode
+ * 
+ */
+export type OAuthAuthorizationCode = Prisma.OAuthAuthorizationCodeModel
+/**
+ * Model OAuthAccessToken
+ * 
+ */
+export type OAuthAccessToken = Prisma.OAuthAccessTokenModel

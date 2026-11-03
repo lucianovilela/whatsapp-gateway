@@ -54,7 +54,10 @@ export const ModelName = {
   Request: 'Request',
   Liberado: 'Liberado',
   Atendimento: 'Atendimento',
-  AtendimentoMensagem: 'AtendimentoMensagem'
+  AtendimentoMensagem: 'AtendimentoMensagem',
+  OAuthClient: 'OAuthClient',
+  OAuthAuthorizationCode: 'OAuthAuthorizationCode',
+  OAuthAccessToken: 'OAuthAccessToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -114,6 +117,50 @@ export const AtendimentoMensagemScalarFieldEnum = {
 } as const
 
 export type AtendimentoMensagemScalarFieldEnum = (typeof AtendimentoMensagemScalarFieldEnum)[keyof typeof AtendimentoMensagemScalarFieldEnum]
+
+
+export const OAuthClientScalarFieldEnum = {
+  clientId: 'clientId',
+  clientSecretHash: 'clientSecretHash',
+  clientName: 'clientName',
+  redirectUris: 'redirectUris',
+  grantTypes: 'grantTypes',
+  responseTypes: 'responseTypes',
+  tokenEndpointAuthMethod: 'tokenEndpointAuthMethod',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OAuthClientScalarFieldEnum = (typeof OAuthClientScalarFieldEnum)[keyof typeof OAuthClientScalarFieldEnum]
+
+
+export const OAuthAuthorizationCodeScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  redirectUri: 'redirectUri',
+  codeChallenge: 'codeChallenge',
+  codeChallengeMethod: 'codeChallengeMethod',
+  authorizationCodeHash: 'authorizationCodeHash',
+  expiresAt: 'expiresAt',
+  consumed: 'consumed',
+  revoked: 'revoked',
+  createdAt: 'createdAt'
+} as const
+
+export type OAuthAuthorizationCodeScalarFieldEnum = (typeof OAuthAuthorizationCodeScalarFieldEnum)[keyof typeof OAuthAuthorizationCodeScalarFieldEnum]
+
+
+export const OAuthAccessTokenScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  tokenHash: 'tokenHash',
+  scope: 'scope',
+  expiresAt: 'expiresAt',
+  revoked: 'revoked',
+  createdAt: 'createdAt'
+} as const
+
+export type OAuthAccessTokenScalarFieldEnum = (typeof OAuthAccessTokenScalarFieldEnum)[keyof typeof OAuthAccessTokenScalarFieldEnum]
 
 
 export const SortOrder = {

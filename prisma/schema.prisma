@@ -59,3 +59,46 @@ model AtendimentoMensagem {
 
   @@index([atendimentoId, dataInclusao])
 }
+
+model OAuthClient {
+  clientId                String   @id
+  clientSecretHash        String
+  clientName              String
+  redirectUris            String[]
+  grantTypes              String[]
+  responseTypes           String[]
+  tokenEndpointAuthMethod String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@index([clientName])
+}
+
+model OAuthAuthorizationCode {
+  id                    String   @id @default(cuid())
+  clientId              String
+  redirectUri           String
+  codeChallenge         String
+  codeChallengeMethod   String
+  authorizationCodeHash String   @unique
+  expiresAt             DateTime
+  consumed              Boolean  @default(false)
+  revoked               Boolean  @default(false)
+  createdAt             DateTime @default(now())
+
+  @@index([clientId, expiresAt])
+  @@index([expiresAt, consumed, revoked])
+}
+
+model OAuthAccessToken {
+  id          String   @id @default(cuid())
+  clientId    String
+  tokenHash   String   @unique
+  scope       String?
+  expiresAt   DateTime
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([clientId, expiresAt])
+  @@index([expiresAt, revoked])
+}

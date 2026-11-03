@@ -1,0 +1,36 @@
+info:
+  name: mcp
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:3000/api/mcp
+  headers:
+    - name: Accept
+      value: application/json, text/event-stream
+  body:
+    type: json
+    data: |-
+      {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "initialize",
+        "params": {
+          "protocolVersion": "2025-06-18",
+          "capabilities": {},
+          "clientInfo": {
+            "name": "teste",
+            "version": "1.0.0"
+          }
+        }
+      }
+  auth:
+    type: bearer
+    token: uma-chave-secreta-forte
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

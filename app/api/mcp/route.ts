@@ -1,6 +1,7 @@
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 
 import { createMcpServer } from "@/app/lib/mcp-server";
+import { hasValidOAuthAccessToken } from "@/app/lib/oauth";
 import { prisma } from "@/app/lib/prisma";
 
 export const runtime = "nodejs";
@@ -26,14 +27,24 @@ function jsonResponse(request: Request, body: unknown, status: number) {
   return Response.json(body, { status, headers });
 }
 
-function authorizationState(request: Request) {
+async function authorizationState(request: Request) {
   const secret = process.env.MCP_API_KEY;
+  const authorization = request.headers.get("authorization");
+  const bearer = authorization?.match(/^Bearer (\S+)$/i)?.[1];
+  if (bearer && secret && bearer === secret) return "valid" as const;
+  if (bearer) {
+    try {
+      if (await hasValidOAuthAccessToken(bearer)) return "valid" as const;
+    } catch {
+      return secret ? "invalid" as const : "missing" as const;
+    }
+  }
   if (!secret) return "missing" as const;
-  return request.headers.get("authorization") === `Bearer ${secret}` ? "valid" as const : "invalid" as const;
+  return "invalid" as const;
 }
 
-function rejectUnauthorized(request: Request) {
-  const state = authorizationState(request);
+async function rejectUnauthorized(request: Request) {
+  const state = await authorizationState(request);
   if (state === "missing") return jsonResponse(request, { error: "MCP_API_KEY não configurada." }, 503);
   if (state === "invalid") return jsonResponse(request, { error: "Não autorizado." }, 401);
   return null;
@@ -44,15 +55,15 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function GET(request: Request) {
-  return rejectUnauthorized(request) ?? jsonResponse(request, { error: "Método não permitido." }, 405);
+  return (await rejectUnauthorized(request)) ?? jsonResponse(request, { error: "Método não permitido." }, 405);
 }
 
 export async function DELETE(request: Request) {
-  return rejectUnauthorized(request) ?? jsonResponse(request, { error: "Método não permitido." }, 405);
+  return (await rejectUnauthorized(request)) ?? jsonResponse(request, { error: "Método não permitido." }, 405);
 }
 
 export async function POST(request: Request) {
-  const rejected = rejectUnauthorized(request);
+  const rejected = await rejectUnauthorized(request);
   if (rejected) return rejected;
 
   try {
