@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 import type { PrismaClient } from "@/generated/prisma/client";
-import { extractWaId } from "@/app/lib/whatsapp-payload";
+import { extractText, extractWaId } from "@/app/lib/whatsapp-payload";
 import { sendSerproText } from "@/app/lib/serpro-messages";
 
 class BusinessError extends Error {
@@ -81,15 +81,12 @@ export function createMcpServer(prisma: PrismaClient) {
     });
     return requests.map((request) => {
       const payload = parseRequest(request);
-      const text = payload && typeof payload === "object" && "text" in payload && typeof payload.text === "string"
-        ? payload.text
-        : null;
       return {
         requestId: request.id,
         status: request.status,
         dataInclusao: request.dataInclusao,
         waId: extractWaId(payload),
-        texto: text,
+        texto: extractText(payload),
       };
     });
   }));

@@ -1,1 +1,1 @@
-export { extractWaId } from "./whatsapp-payload.mjs";
+export { extractText, extractWaId } from "./whatsapp-payload.mjs";
