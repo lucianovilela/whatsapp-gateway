@@ -91,6 +91,53 @@ export function createMcpServer(prisma: PrismaClient) {
     });
   }));
 
+  server.registerTool("listar_mensagens", {
+    description: "Lista todas as mensagens Request, de qualquer status, com filtro opcional por status.",
+    inputSchema: {
+      status: z.number().int().optional(),
+      limit: z.number().int().min(1).max(100).default(20),
+      offset: z.number().int().min(0).max(100000).default(0),
+    },
+  }, handle(async ({ status, limit, offset }) => {
+    const requests = await prisma.request.findMany({
+      where: status === undefined ? undefined : { status },
+      include: { atendimento: { select: { id: true, status: true, atendente: true } } },
+      orderBy: [{ dataInclusao: "desc" }, { id: "desc" }],
+      skip: offset,
+      take: limit,
+    });
+    return requests.map((request) => {
+      const payload = parseRequest(request);
+      return {
+        requestId: request.id,
+        status: request.status,
+        dataInclusao: request.dataInclusao,
+        waId: extractWaId(payload),
+        texto: extractText(payload),
+        atendimento: request.atendimento,
+      };
+    });
+  }));
+
+  server.registerTool("obter_mensagem", {
+    description: "Retorna a mensagem Request completa a partir do número da mensagem; texto é o corpo integral gravado no banco.",
+    inputSchema: { requestId: z.number().int().positive() },
+  }, handle(async ({ requestId }) => {
+    const request = await prisma.request.findUnique({
+      where: { id: requestId },
+      include: { atendimento: { include: { mensagens: { orderBy: [{ dataInclusao: "asc" }, { id: "asc" }] } } } },
+    });
+    if (!request) throw new BusinessError("Request não encontrada.", "NOT_FOUND");
+    return {
+      requestId: request.id,
+      status: request.status,
+      dataInclusao: request.dataInclusao,
+      waId: extractWaId(parseRequest(request)),
+      texto: request.texto,
+      atendimento: request.atendimento,
+    };
+  }));
+
   server.registerTool("iniciar_atendimento", {
     description: "Inicia atomicamente um atendimento para uma mensagem.",
     inputSchema: { requestId: z.number().int().positive(), atendente: z.string().trim().min(1).max(160).optional() },
